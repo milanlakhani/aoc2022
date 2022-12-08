@@ -1,3 +1,39 @@
+function parseInput(calories) {
+    return calories.split("\n");
+}
+
+
+function calorieTopElfFruit(calorieList) {
+    let currentElfTotal = 0;
+    let topElfCals = 0;
+    calorieList.forEach(fruit => {
+        if (fruit) {
+            currentElfTotal += parseInt(fruit);
+        } else {
+            if (currentElfTotal > topElfCals) {
+                topElfCals = currentElfTotal;
+            }
+            currentElfTotal = 0;
+        }
+    });
+    return(topElfCals);
+}
+
+function calorieElfOrder(calorieList) {
+    let currentElfTotal = 0;
+    let elfList = [];
+    calorieList.forEach(fruit => {
+        if (fruit) {
+            currentElfTotal += parseInt(fruit);
+        } else {
+            elfList.push(currentElfTotal);
+            currentElfTotal = 0;
+        }
+    });
+    elfList.sort().reverse();
+    return(elfList);
+}
+
 const calories = `4601
 1583
 2995
@@ -2252,38 +2288,5 @@ const calories = `4601
 3794
 6089`
 
-const calorieList = calories.split("\n");
-
-function calorieTopElfCount(calorieList) {
-    let currentTotal = 0;
-    let topCals = 0;
-    calorieList.forEach(fruit => {
-        if (fruit) {
-            currentTotal += parseInt(fruit);
-        } else {
-            if (currentTotal > topCals) {
-                topCals = currentTotal;
-            }
-            currentTotal = 0;
-        }
-    });
-    return(topCals);
-}
-
-function calorieOrders(calorieList) {
-    let currentTotal = 0;
-    let elfList = [];
-    calorieList.forEach(fruit => {
-        if (fruit) {
-            currentTotal += parseInt(fruit);
-        } else {
-            elfList.push(currentTotal);
-            currentTotal = 0;
-        }
-    });
-    elfList.sort();
-    elfList.reverse();
-    return(elfList);
-}
-
-console.log(calorieOrders(calorieList));
+console.log(calorieTopElfFruit(parseInput(calories)));
+console.log(calorieElfOrder(parseInput(calories)));
