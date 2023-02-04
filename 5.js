@@ -19,13 +19,31 @@ function processDrawing(drawing, stackQuantity) {
 function processInstructions(instructions) {
     return instructions.split("\n").map(instruction => {
         const listInstruction = instruction.split(" ");
-        return [listInstruction[1],listInstruction[3],listInstruction[5]].map(i => parseInt(i));
+        return [listInstruction[1],listInstruction[3],listInstruction[5]];
     })
 }
 
+function moveBoxes1(boxes,instructions){
+    instructions.forEach(instruction => {
+        const numberOfBoxesToMove = parseInt(instruction[0]);
+        const boxesToMove = boxes[instruction[1]].slice(-1*numberOfBoxesToMove).reverse();
+        boxes[instruction[1]] = boxes[instruction[1]].slice(0,-1*numberOfBoxesToMove);
+        boxes[instruction[2]] = boxes[instruction[2]].concat(boxesToMove);
+    });
+    const message = Object.keys(boxes).map(key => boxes[key].slice(-1)).join('');
+    return message;
+}
 
-
-
+function moveBoxes2(boxes,instructions){
+    instructions.forEach(instruction => {
+        const numberOfBoxesToMove = parseInt(instruction[0]);
+        const boxesToMove = boxes[instruction[1]].slice(-1*numberOfBoxesToMove);
+        boxes[instruction[1]] = boxes[instruction[1]].slice(0,-1*numberOfBoxesToMove);
+        boxes[instruction[2]] = boxes[instruction[2]].concat(boxesToMove);
+    });
+    const message = Object.keys(boxes).map(key => boxes[key].slice(-1)).join('');
+    return message;
+}
 
 const rawDrawing = `[F]         [L]     [M]            
 [T]     [H] [V] [G] [V]            
@@ -539,5 +557,5 @@ move 2 from 9 to 3
 move 3 from 5 to 4
 move 2 from 8 to 6`
 
-console.log(processDrawing(rawDrawing,9));
-console.log(processInstructions(rawInstructions));
+console.log(moveBoxes1(processDrawing(rawDrawing,9), processInstructions(rawInstructions)));
+console.log(moveBoxes2(processDrawing(rawDrawing,9), processInstructions(rawInstructions)));
